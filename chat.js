@@ -13,8 +13,9 @@ const io = new Server(server, {
   cors: {
     origin: '*'
   }
-})
+});
 
+// Main Namespace
 io.on('connection', socket => {
   socket.on('welcome', () => console.log(socket.id + ' joined'));
   socket.on('disconnecting', () => {
@@ -22,9 +23,16 @@ io.on('connection', socket => {
   })
 
   socket.on('message:sent', msg => {
-    socket.broadcast.emit('message:received', {text: msg.text})
+    socket.broadcast.emit('message:received', { text: msg.text })
   })
-})
+});
+
+// Admin namespace
+const admin = io.of('/admin');
+
+admin.on('connect', (socket) => {
+  socket.emit('admin:message', 'welcome to admin channel');
+});
 
 
 server.listen(9000);

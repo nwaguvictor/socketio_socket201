@@ -1,8 +1,15 @@
 const socket = io('http://localhost:9000');
+const adminSocket = io('http://localhost:9000/admin');
 
 socket.on('connect', () => {
   socket.emit('welcome');
 })
+
+adminSocket.on('connect', () => {
+  adminSocket.on('admin:message', (msg) => {
+    console.log(msg)
+  })
+});
 
 socket.on('message:received', (msg) => {
   displayMessage(msg.text, 'received')
