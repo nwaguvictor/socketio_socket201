@@ -31,7 +31,9 @@ io.on('connection', socket => {
 const admin = io.of('/admin');
 
 admin.on('connect', (socket) => {
-  socket.emit('admin:message', 'welcome to admin channel');
+  socket.join('admin-room');
+  // socket.emit('admin:message', 'welcome to admin channel');
+  admin.to('admin-room').emit('admin:message', 'welcome to admin channel')
 });
 
 

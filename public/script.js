@@ -8,7 +8,7 @@ socket.on('connect', () => {
 adminSocket.on('connect', () => {
   adminSocket.on('admin:message', (msg) => {
     console.log(msg)
-  })
+  });
 });
 
 socket.on('message:received', (msg) => {
