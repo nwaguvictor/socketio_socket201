@@ -17,10 +17,11 @@ const io = new Server(server, {
 
 // Main Namespace
 io.on('connection', socket => {
-  socket.on('welcome', () => console.log(socket.id + ' joined'));
-  socket.on('disconnecting', () => {
-    console.log(socket.id + " is about to leave the group");
-  })
+  socket.on('welcome', () => console.log(socket.id + ' joined' + ' main namespace'));
+  socket.on('room:join', ({ name }) => {
+    socket.join(name);
+    io.to(name).emit('room:joined', `${socket.id} joined the room`);
+  });
 
   socket.on('message:sent', msg => {
     socket.broadcast.emit('message:received', { text: msg.text })
@@ -32,7 +33,6 @@ const admin = io.of('/admin');
 
 admin.on('connect', (socket) => {
   socket.join('admin-room');
-  // socket.emit('admin:message', 'welcome to admin channel');
   admin.to('admin-room').emit('admin:message', 'welcome to admin channel')
 });
 

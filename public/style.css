@@ -5,3 +5,8 @@ li.sent {
 li.received {
   background-color: #fff;
 }
+
+li.notification {
+  color: red;
+  font-size: 10px;
+}
